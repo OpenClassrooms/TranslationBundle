@@ -1,0 +1,36 @@
+{
+  "name": "openclassrooms/translation-bundle",
+  "description": "Symfony2 Bundle for Translation Workflow",
+  "keywords": ["translation"],
+  "type": "symfony-bundle",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "OpenClassrooms",
+      "email": "tech@openclassrooms.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "OpenClassrooms\\Bundle\\TranslationBundle\\": ""
+    }
+  },
+  "require": {
+    "php": ">=5.3.3",
+    "symfony/dependency-injection": "~2.6",
+    "symfony/config": "~2.6",
+    "symfony/http-kernel": "~2.6",
+    "symfony/translation": "~2.6",
+    "symfony/finder": "~2.6",
+    "symfony/framework-bundle": "~2.6"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "~4.5",
+    "satooshi/php-coveralls": "dev-master"
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.0.x-dev"
+    }
+  }
+}
