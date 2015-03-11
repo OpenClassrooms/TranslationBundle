@@ -4,7 +4,7 @@ namespace Tests\Services\Impl;
 
 use OpenClassrooms\Bundle\TranslationBundle\Services\CatalogueService;
 use OpenClassrooms\Bundle\TranslationBundle\Services\Impl\CatalogueServiceImpl;
-use Symfony\Component\Finder\Finder;
+use Symfony\Bundle\FrameworkBundle\Translation\TranslationLoader;
 use Symfony\Component\Translation\Loader\YamlFileLoader;
 
 /**
@@ -12,13 +12,6 @@ use Symfony\Component\Translation\Loader\YamlFileLoader;
  */
 class CatalogueServiceImplTest extends \PHPUnit_Framework_TestCase
 {
-
-    private $referenceKeys;
-
-    private $referenceKeysFilePath1 = array();
-
-    private $referenceKeysFilePath2 = array();
-
     /**
      * @var CatalogueService
      */
@@ -29,7 +22,7 @@ class CatalogueServiceImplTest extends \PHPUnit_Framework_TestCase
      */
     public function NonExistingFilePath_ReturnEmpty()
     {
-        $keys = $this->service->findMissingKeys('en', array('fr'), array(__DIR__.'../non_existing'));
+        $keys = $this->service->findMissingKeys('fr', array('en'), array(__DIR__.'../non_existing'));
         $this->assertEmpty($keys);
     }
 
@@ -38,7 +31,7 @@ class CatalogueServiceImplTest extends \PHPUnit_Framework_TestCase
      */
     public function NonExistingReference_ReturnEmpty()
     {
-        $keys = $this->service->findMissingKeys('tt', array('en'), array(__DIR__.'../non_existing'));
+        $keys = $this->service->findMissingKeys('tt', array('en'), array(__DIR__.'/../../Fixtures/ABundle/Resources/translations'));
         $this->assertEmpty($keys);
     }
 
@@ -47,7 +40,7 @@ class CatalogueServiceImplTest extends \PHPUnit_Framework_TestCase
      */
     public function EmptyLocales_ReturnEmpty()
     {
-        $keys = $this->service->findMissingKeys('en', array(), array(__DIR__.'../non_existing'));
+        $keys = $this->service->findMissingKeys('fr', array(), array(__DIR__.'/../../Fixtures/ABundle/Resources/translations'));
         $this->assertEmpty($keys);
     }
 
@@ -56,8 +49,8 @@ class CatalogueServiceImplTest extends \PHPUnit_Framework_TestCase
      */
     public function NonExistingLocale_ReturnAllKeys()
     {
-        $keys = $this->service->findMissingKeys('en', array('tt'), array(__DIR__.'../non_existing'));
-        $this->assertCount(count($this->referenceKeys), $keys);
+        $keys = $this->service->findMissingKeys('fr', array('tt'), array(__DIR__.'/../../Fixtures/ABundle/Resources/translations'));
+        $this->assertCount(3, $keys['tt']);
     }
 
     /**
@@ -65,7 +58,9 @@ class CatalogueServiceImplTest extends \PHPUnit_Framework_TestCase
      */
     public function OneFilePath_ReturnKeys()
     {
-        $keys = $this->service->findMissingKeys('en', array('tt'), array(__DIR__.'../non_existing'));
+        $keys = $this->service->findMissingKeys('fr', array('en'), array(__DIR__.'/../../Fixtures/ABundle/Resources/translations'));
+        $this->assertCount(1, $keys['en']);
+        $this->assertContains('a.key_2', $keys['en']);
     }
 
     /**
@@ -73,15 +68,28 @@ class CatalogueServiceImplTest extends \PHPUnit_Framework_TestCase
      */
     public function MultiFilePath_ReturnKeys()
     {
-        $keys = $this->service->findMissingKeys('en', array('tt'), array(__DIR__.'../non_existing'));
+        $path = array(__DIR__.'/../../Fixtures/ABundle/Resources/translations', __DIR__.'/../../Fixtures/BBundle/Resources/translations');
+        $keys = $this->service->findMissingKeys('fr', array('en'), $path);
+        $this->assertCount(2, $keys['en']);
+        $this->assertContains('a.key_2', $keys['en']);
+        $this->assertContains('b.key_3', $keys['en']);
+    }
+
+    /**
+     * @test
+     */
+    public function NoMissing_ReturnEmpty()
+    {
+        $keys = $this->service->findMissingKeys('fr', array('en'), array(__DIR__.'/../../Fixtures/CBundle/Resources/translations'));
+        $this->assertEmpty($keys);
     }
 
     protected function setUp()
     {
         $this->service = new CatalogueServiceImpl();
-        $this->service->setFinder(new Finder());
-        $this->service->setLoader(new YamlFileLoader());
-        $this->referenceKeys = array_merge($this->referenceKeysFilePath1, $this->referenceKeysFilePath2);
+        $translationLoader = new TranslationLoader();
+        $translationLoader->addLoader('yml', new YamlFileLoader());
+        $this->service->setTranslationLoader($translationLoader);
     }
 
 }

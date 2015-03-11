@@ -17,11 +17,7 @@
   },
   "require": {
     "php": ">=5.3.3",
-    "symfony/dependency-injection": "~2.6",
-    "symfony/config": "~2.6",
-    "symfony/http-kernel": "~2.6",
     "symfony/translation": "~2.6",
-    "symfony/finder": "~2.6",
     "symfony/framework-bundle": "~2.6"
   },
   "require-dev": {

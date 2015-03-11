@@ -4,7 +4,6 @@ namespace OpenClassrooms\Bundle\TranslationBundle\Services\Impl;
 
 use OpenClassrooms\Bundle\TranslationBundle\Services\CatalogueService;
 use Symfony\Bundle\FrameworkBundle\Translation\TranslationLoader;
-use Symfony\Component\Finder\Finder;
 use Symfony\Component\Translation\MessageCatalogue;
 
 /**
@@ -12,12 +11,6 @@ use Symfony\Component\Translation\MessageCatalogue;
  */
 class CatalogueServiceImpl implements CatalogueService
 {
-
-    /**
-     * @var Finder
-     */
-    private $finder;
-
     /**
      * @var TranslationLoader
      */
@@ -33,14 +26,14 @@ class CatalogueServiceImpl implements CatalogueService
 
             foreach ($locales as $locale) {
                 $currentCatalogue = new MessageCatalogue($locale);
-                $this->translationLoader->loadMessages($path . '/Resources/translations', $currentCatalogue);
+                $this->translationLoader->loadMessages($path, $currentCatalogue);
 
                 $fallbackCatalogue = new MessageCatalogue($reference);
-                $this->translationLoader->loadMessages($path . '/Resources/translations', $fallbackCatalogue);
+                $this->translationLoader->loadMessages($path, $fallbackCatalogue);
 
                 foreach ($fallbackCatalogue->all('messages') as $key => $value) {
                     if (!$currentCatalogue->defines($key)) {
-                        $missing[$locale][] = $key;
+                        $missingKeys[$locale][] = $key;
                     }
                 }
             }
