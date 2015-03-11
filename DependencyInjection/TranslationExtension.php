@@ -1,6 +1,6 @@
 <?php
 
-namespace DependencyInjection;
+namespace OpenClassrooms\Bundle\TranslationBundle\DependencyInjection;
 
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
