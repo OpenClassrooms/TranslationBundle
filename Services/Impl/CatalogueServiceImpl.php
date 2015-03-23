@@ -25,6 +25,7 @@ class CatalogueServiceImpl implements CatalogueService
         foreach ($paths as $path) {
 
             foreach ($locales as $locale) {
+
                 $currentCatalogue = new MessageCatalogue($locale);
                 $this->translationLoader->loadMessages($path, $currentCatalogue);
 
@@ -32,7 +33,9 @@ class CatalogueServiceImpl implements CatalogueService
                 $this->translationLoader->loadMessages($path, $fallbackCatalogue);
 
                 foreach ($fallbackCatalogue->all() as $domain) {
+
                     foreach($domain as $key => $value) {
+
                         if (!$currentCatalogue->defines($key)) {
                             $missingKeys[$locale][] = $key;
                         }
