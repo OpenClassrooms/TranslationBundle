@@ -2,7 +2,7 @@
 
 namespace OpenClassrooms\Bundle\TranslationBundle;
 
-use DependencyInjection\TranslationExtension;
+use OpenClassrooms\Bundle\TranslationBundle\DependencyInjection\TranslationExtension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 

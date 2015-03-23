@@ -31,9 +31,11 @@ class CatalogueServiceImpl implements CatalogueService
                 $fallbackCatalogue = new MessageCatalogue($reference);
                 $this->translationLoader->loadMessages($path, $fallbackCatalogue);
 
-                foreach ($fallbackCatalogue->all('messages') as $key => $value) {
-                    if (!$currentCatalogue->defines($key)) {
-                        $missingKeys[$locale][] = $key;
+                foreach ($fallbackCatalogue->all() as $domain) {
+                    foreach($domain as $key => $value) {
+                        if (!$currentCatalogue->defines($key)) {
+                            $missingKeys[$locale][] = $key;
+                        }
                     }
                 }
             }
