@@ -1,6 +1,6 @@
 <?php
 
-namespace OC\SystemBundle\Command;
+namespace OpenClassrooms\Bundle\TranslationBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Helper\Table;

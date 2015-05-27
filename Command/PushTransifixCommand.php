@@ -1,6 +1,6 @@
 <?php
 
-namespace Command;
+namespace OpenClassrooms\Bundle\TranslationBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
