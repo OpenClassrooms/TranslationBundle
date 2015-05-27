@@ -1,0 +1,3 @@
+testRoot:
+  test:
+    string: 'my string'

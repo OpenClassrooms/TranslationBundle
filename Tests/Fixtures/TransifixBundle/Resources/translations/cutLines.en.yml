@@ -1,0 +1,4 @@
+en:
+  test:
+    string: "This is a line cut
+    by transifex"

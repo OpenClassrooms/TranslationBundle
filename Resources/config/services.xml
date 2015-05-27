@@ -8,5 +8,18 @@
                 <argument type="service" id="translation.loader" />
             </call>
         </service>
+
+        <service id="openclassrooms.translation.transifex_service" class="OpenClassrooms\Bundle\TranslationBundle\Services\Impl\TransifexServiceImpl">
+            <call method="setParser">
+                <argument type="service" id="yaml_parser" />
+            </call>
+            <call method="setHtmlPurifier">
+                <argument type="service" id="html_purifier" />
+            </call>
+        </service>
+
+        <service id="yaml_parser" class="Symfony\Component\Yaml\Parser" />
+
+        <service id="html_purifier" class="HTMLPurifier" />
     </services>
 </container>

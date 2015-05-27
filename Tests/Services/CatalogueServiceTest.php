@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Services\Impl;
+namespace OpenClassrooms\Bundle\TranslationBundle\Tests\Services;
 
 use OpenClassrooms\Bundle\TranslationBundle\Services\CatalogueService;
 use OpenClassrooms\Bundle\TranslationBundle\Services\Impl\CatalogueServiceImpl;
@@ -10,7 +10,7 @@ use Symfony\Component\Translation\Loader\YamlFileLoader;
 /**
  * @author Bastien Rambure <bastien.rambure@openclassrooms.com>
  */
-class CatalogueServiceImplTest extends \PHPUnit_Framework_TestCase
+class CatalogueServiceTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var CatalogueService
