@@ -36,6 +36,22 @@ class TransifixTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function FixEmptyYamlFileShouldNotChange()
+    {
+        $path = __DIR__ . '/../Fixtures/TransifixBundle/Resources/translations/empty.fr.yml';
+        $this->service->fixYamlFile($path);
+
+        $actual = FileSystemServiceStub::$files[$path];
+        $expected = file_get_contents(
+            __DIR__ . '/../Fixtures/TransifixBundle/Resources/translations/empty.fr.yml'
+        );
+
+        $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     * @test
+     */
     public function LoadYamlFileShouldReturnArray()
     {
         $actual = $this->service->loadYaml(

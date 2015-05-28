@@ -46,12 +46,12 @@ class TransifixServiceImpl implements TransifixService
             }
 
             $translations = $this->fixXss($translations);
-        }
 
-        $this->fileSystemService->dump(
-            $filePath,
-            $this->yamlService->dump($translations, self::YAML_INLINE_DEPTH, self::YAML_INDENTATION)
-        );
+            $this->fileSystemService->dump(
+                $filePath,
+                $this->yamlService->dump($translations, self::YAML_INLINE_DEPTH, self::YAML_INDENTATION)
+            );
+        }
     }
 
     /**
@@ -64,6 +64,10 @@ class TransifixServiceImpl implements TransifixService
         while (!$lines) {
             try {
                 $lines = $this->yamlService->parse($this->fileSystemService->getContent($filePath));
+
+                if(null == $lines) {
+                    break;
+                }
             } catch (ParseException $e) {
                 $this->fixCutLine($filePath, $e->getParsedLine());
             }
