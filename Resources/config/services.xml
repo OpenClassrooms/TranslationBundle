@@ -9,17 +9,23 @@
             </call>
         </service>
 
-        <service id="openclassrooms.translation.transifex_service" class="OpenClassrooms\Bundle\TranslationBundle\Services\Impl\TransifexServiceImpl">
-            <call method="setParser">
-                <argument type="service" id="yaml_parser" />
+        <service id="openclassrooms.translation.transifix" class="OpenClassrooms\Bundle\TranslationBundle\Services\Impl\TransifixServiceImpl">
+            <call method="setYamlService">
+                <argument type="service" id="yaml_service" />
             </call>
             <call method="setHtmlPurifier">
                 <argument type="service" id="html_purifier" />
             </call>
+            <call method="setFileSystemService">
+                <argument type="service" id="file_system_service" />
+            </call>
         </service>
 
-        <service id="yaml_parser" class="Symfony\Component\Yaml\Parser" />
+        <service id="yaml_service" class="Symfony\Component\Yaml\Yaml" />
 
         <service id="html_purifier" class="HTMLPurifier" />
+
+        <service id="file_system_service" class="OpenClassrooms\Bundle\TranslationBundle\Services\Impl\FileSystemServiceImpl" />
+
     </services>
 </container>

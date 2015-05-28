@@ -2,15 +2,15 @@
 
 namespace OpenClassrooms\Bundle\TranslationBundle\Services\Impl;
 
-use OpenClassrooms\Bundle\TranslationBundle\Services\FileSystem;
-use OpenClassrooms\Bundle\TranslationBundle\Services\Transifix;
+use OpenClassrooms\Bundle\TranslationBundle\Services\FileSystemService;
+use OpenClassrooms\Bundle\TranslationBundle\Services\TransifixService;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
 
 /**
  * @author Bastien Rambure <bastien.rambure@openclassrooms.com>
  */
-class TransifixImpl implements Transifix
+class TransifixServiceImpl implements TransifixService
 {
     const LANGUAGE_ROOT_SIZE = 2;
 
@@ -21,7 +21,7 @@ class TransifixImpl implements Transifix
     /**
      * @var Yaml
      */
-    private $yaml;
+    private $yamlService;
 
     /**
      * @var \HTMLPurifier
@@ -29,9 +29,9 @@ class TransifixImpl implements Transifix
     private $htmlPurifier;
 
     /**
-     * @var FileSystem
+     * @var FileSystemService
      */
-    private $fileSystem;
+    private $fileSystemService;
 
     public function fixYamlFile($filePath)
     {
@@ -48,9 +48,9 @@ class TransifixImpl implements Transifix
             $translations = $this->fixXss($translations);
         }
 
-        $this->fileSystem->dump(
+        $this->fileSystemService->dump(
             $filePath,
-            $this->yaml->dump($translations, self::YAML_INLINE_DEPTH, self::YAML_INDENTATION)
+            $this->yamlService->dump($translations, self::YAML_INLINE_DEPTH, self::YAML_INDENTATION)
         );
     }
 
@@ -63,7 +63,7 @@ class TransifixImpl implements Transifix
 
         while (!$lines) {
             try {
-                $lines = $this->yaml->parse($this->fileSystem->getContent($filePath));
+                $lines = $this->yamlService->parse($this->fileSystemService->getContent($filePath));
             } catch (ParseException $e) {
                 $this->fixCutLine($filePath, $e->getParsedLine());
             }
@@ -128,15 +128,15 @@ class TransifixImpl implements Transifix
 
     private function fixCutLine($filePath, $line)
     {
-        $file = $this->fileSystem->getContentToArray($filePath);
+        $file = $this->fileSystemService->getContentToArray($filePath);
         $file[$line - 1] = rtrim($file[$line - 1]) . ' ';
         $file[$line] = ltrim($file[$line]);
-        $this->fileSystem->dump($filePath, $file);
+        $this->fileSystemService->dump($filePath, $file);
     }
 
-    public function setYaml(Yaml $yaml)
+    public function setYamlService(Yaml $yamlService)
     {
-        $this->yaml = $yaml;
+        $this->yamlService = $yamlService;
     }
 
     public function setHtmlPurifier(\HTMLPurifier $htmlPurifier)
@@ -144,9 +144,9 @@ class TransifixImpl implements Transifix
         $this->htmlPurifier = $htmlPurifier;
     }
 
-    public function setFileSystem(FileSystem $fileSystem)
+    public function setFileSystemService(FileSystemService $fileSystemService)
     {
-        $this->fileSystem = $fileSystem;
+        $this->fileSystemService = $fileSystemService;
     }
 
 }

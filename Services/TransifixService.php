@@ -5,7 +5,7 @@ namespace OpenClassrooms\Bundle\TranslationBundle\Services;
 /**
  * @author Bastien Rambure <bastien.rambure@openclassrooms.com>
  */
-interface Transifix
+interface TransifixService
 {
     public function fixYamlFile($filePath);
 

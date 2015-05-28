@@ -2,8 +2,8 @@
 
 namespace OpenClassrooms\Bundle\TranslationBundle\Tests\Services;
 
-use OpenClassrooms\Bundle\TranslationBundle\Services\Impl\TransifixImpl;
-use OpenClassrooms\Bundle\TranslationBundle\Services\Transifix;
+use OpenClassrooms\Bundle\TranslationBundle\Services\Impl\TransifixServiceImpl;
+use OpenClassrooms\Bundle\TranslationBundle\Services\TransifixService;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -13,7 +13,7 @@ class TransifixTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
-     * @var Transifix
+     * @var TransifixService
      */
     private $service;
 
@@ -25,7 +25,7 @@ class TransifixTest extends \PHPUnit_Framework_TestCase
         $path = __DIR__ . '/../Fixtures/TransifixBundle/Resources/translations/twoCharRoot.en.yml';
         $this->service->fixYamlFile($path);
 
-        $actual = FileSystemStub::$files[$path];
+        $actual = FileSystemServiceStub::$files[$path];
         $expected = file_get_contents(
             __DIR__ . '/../Fixtures/TransifixBundle/Resources/translations/fixedTwoCharRoot.en.yml'
         );
@@ -153,10 +153,10 @@ class TransifixTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->service = new TransifixImpl();
-        $this->service->setYaml(new Yaml());
+        $this->service = new TransifixServiceImpl();
+        $this->service->setYamlService(new Yaml());
         $this->service->setHtmlPurifier(new \HTMLPurifier());
-        $this->service->setFileSystem(new FileSystemStub());
+        $this->service->setFileSystemService(new FileSystemServiceStub());
     }
 
 }

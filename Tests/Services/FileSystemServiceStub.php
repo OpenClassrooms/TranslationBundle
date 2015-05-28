@@ -2,12 +2,12 @@
 
 namespace OpenClassrooms\Bundle\TranslationBundle\Tests\Services;
 
-use OpenClassrooms\Bundle\TranslationBundle\Services\FileSystem;
+use OpenClassrooms\Bundle\TranslationBundle\Services\FileSystemService;
 
 /**
  * @author Bastien Rambure <bastien.rambure@openclassrooms.com>
  */
-class FileSystemStub implements FileSystem
+class FileSystemServiceStub implements FileSystemService
 {
 
     /**
