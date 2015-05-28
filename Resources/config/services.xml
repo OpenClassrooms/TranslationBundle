@@ -9,7 +9,7 @@
             </call>
         </service>
 
-        <service id="openclassrooms.translation.transifix" class="OpenClassrooms\Bundle\TranslationBundle\Services\Impl\TransifixServiceImpl">
+        <service id="openclassrooms.translation.transifix_service" class="OpenClassrooms\Bundle\TranslationBundle\Services\Impl\TransifixServiceImpl">
             <call method="setYamlService">
                 <argument type="service" id="yaml_service" />
             </call>

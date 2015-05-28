@@ -51,7 +51,7 @@ class PullTransifixCommand extends ContainerAwareCommand
         foreach ($paths as $path) {
             $finder->files()->in($path . '/Resources/translations')->name('*.yml');
             foreach ($finder as $file) {
-                $this->getContainer()->get('openclassrooms.translation.transifex_service')
+                $this->getContainer()->get('openclassrooms.translation.transifix_service')
                     ->fixYamlFile($file->getRealpath())
                 ;
             }
