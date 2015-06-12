@@ -123,7 +123,8 @@ class TransifixServiceImpl implements TransifixService
             if (is_array($line)) {
                 $lines[$k] = $this->purifyArray($line);
             } else {
-                $lines[$k] = urldecode($this->htmlPurifier->purify($line));
+                $line = $this->htmlPurifier->purify($line);
+                $lines[$k] = preg_replace('#href="%25(.*)%25"#', 'href="%$1%"', $line);
             }
         }
 

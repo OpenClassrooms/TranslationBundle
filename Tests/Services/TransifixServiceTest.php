@@ -144,6 +144,32 @@ class TransifixTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function FixXssShouldNotConvertSpecialCharacters()
+    {
+        $actual = array(
+            'testRoot' => array(
+                'test' => array(
+                    'string' => '%da'
+                )
+            )
+        );
+
+        $actual = $this->service->fixXss($actual);
+
+        $expected = array(
+            'testRoot' => array(
+                'test' => array(
+                    'string' => '%da'
+                )
+            )
+        );
+
+        $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     * @test
+     */
     public function FixXssShouldNotRemoveClassInLinks()
     {
         $actual = array(
