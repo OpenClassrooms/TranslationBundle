@@ -4,6 +4,7 @@ namespace OpenClassrooms\Bundle\TranslationBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Helper\Table;
+use Symfony\Component\Console\Helper\TableSeparator;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
@@ -54,25 +55,39 @@ class FindMissingKeysCommand extends ContainerAwareCommand
 
     private function displayLocalesResults(OutputInterface $output, $localeKeys)
     {
-        $missingKeyCount = 0;
-        $tables = array();
-        foreach ($localeKeys as $locale => $keys) {
-            $missingKeyCount += count($keys);
+        $missingKeyCount = array();
+        $missingKeyCount['total'] = 0;
 
-            /** @var Table $table */
-            $table = $this->getHelper('table');
-            $table->setHeaders(array($locale));
-            $table->setRows($keys);
-            $tables[] = $table;
+        $table = new Table($output);
+        $table->setHeaders(array('Locale', 'Key'));
+
+        foreach ($localeKeys as $locale => $keys) {
+
+            $missingKeyCount[$locale] = count($keys);
+            $missingKeyCount['total'] += count($keys);
+
+            foreach ($keys as $key) {
+                $table->addRow(array($locale, $key));
+            }
+
+            reset($localeKeys);
+            if($locale === key($localeKeys)) {
+                $table->addRow(new TableSeparator());
+            }
+
         }
 
-        $output->writeln($missingKeyCount);
+        $counts = new Table($output);
+        $counts->setHeaders(array('Locale', 'Count'));
+        foreach($missingKeyCount as $locale => $count) {
+            $counts->addRow(array($locale, $count));
+        }
 
         if (OutputInterface::VERBOSITY_VERBOSE <= $output->getVerbosity()) {
-            foreach ($tables as $table) {
-                $table->render($output);
-            }
+            $table->render();
+            $counts->render();
         }
-    }
 
+        $output->writeln($missingKeyCount['total']);
+    }
 }
