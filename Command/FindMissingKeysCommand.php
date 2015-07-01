@@ -31,6 +31,8 @@ class FindMissingKeysCommand extends ContainerAwareCommand
         );
 
         $this->displayLocalesResults($output, $localeKeys);
+
+        return count($localeKeys);
     }
 
     /**
