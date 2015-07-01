@@ -22,13 +22,13 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
-                ->scalarNode('locale_source')->isRequired()->end()
-                ->arrayNode('locale_targets')->isRequired()->requiresAtLeastOneElement()
-                    ->prototype('scalar')->end()
-                ->end()
-                ->arrayNode('bundles')->isRequired()->requiresAtLeastOneElement()
-                    ->prototype('scalar')->end()
-                ->end()
+            ->scalarNode('locale_source')->isRequired()->end()
+            ->arrayNode('locale_targets')->isRequired()->requiresAtLeastOneElement()
+            ->prototype('scalar')->end()
+            ->end()
+            ->arrayNode('bundles')->isRequired()->requiresAtLeastOneElement()
+            ->prototype('scalar')->end()
+            ->end()
             ->end();
 
         return $treeBuilder;

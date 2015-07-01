@@ -15,8 +15,7 @@ class FindMissingKeysCommand extends ContainerAwareCommand
 {
     protected function configure()
     {
-        $this
-            ->setName('translation:find-missing-keys');
+        $this->setName('translation:find-missing-keys');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

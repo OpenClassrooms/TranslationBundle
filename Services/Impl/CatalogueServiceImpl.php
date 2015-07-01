@@ -11,6 +11,7 @@ use Symfony\Component\Translation\MessageCatalogue;
  */
 class CatalogueServiceImpl implements CatalogueService
 {
+
     /**
      * @var TranslationLoader
      */
@@ -34,7 +35,7 @@ class CatalogueServiceImpl implements CatalogueService
 
                 foreach ($fallbackCatalogue->all() as $domain) {
 
-                    foreach($domain as $key => $value) {
+                    foreach ($domain as $key => $value) {
 
                         if (!$currentCatalogue->defines($key)) {
                             $missingKeys[$locale][] = $key;

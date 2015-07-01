@@ -15,7 +15,7 @@ class FileSystemServiceStub implements FileSystemService
      */
     public static $files;
 
-    function __construct()
+    public function __construct()
     {
         self::$files = array();
     }

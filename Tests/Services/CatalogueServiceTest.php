@@ -12,6 +12,7 @@ use Symfony\Component\Translation\Loader\YamlFileLoader;
  */
 class CatalogueServiceTest extends \PHPUnit_Framework_TestCase
 {
+
     /**
      * @var CatalogueService
      */
@@ -22,7 +23,7 @@ class CatalogueServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function NonExistingFilePath_ReturnEmpty()
     {
-        $keys = $this->service->findMissingKeys('fr', array('en'), array(__DIR__.'../non_existing'));
+        $keys = $this->service->findMissingKeys('fr', array('en'), array(__DIR__ . '../non_existing'));
         $this->assertEmpty($keys);
     }
 
@@ -31,7 +32,11 @@ class CatalogueServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function NonExistingReference_ReturnEmpty()
     {
-        $keys = $this->service->findMissingKeys('tt', array('en'), array(__DIR__.'/../Fixtures/ABundle/Resources/translations'));
+        $keys = $this->service->findMissingKeys(
+            'tt',
+            array('en'),
+            array(__DIR__ . '/../Fixtures/ABundle/Resources/translations')
+        );
         $this->assertEmpty($keys);
     }
 
@@ -40,7 +45,11 @@ class CatalogueServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function EmptyLocales_ReturnEmpty()
     {
-        $keys = $this->service->findMissingKeys('fr', array(), array(__DIR__.'/../Fixtures/ABundle/Resources/translations'));
+        $keys = $this->service->findMissingKeys(
+            'fr',
+            array(),
+            array(__DIR__ . '/../Fixtures/ABundle/Resources/translations')
+        );
         $this->assertEmpty($keys);
     }
 
@@ -49,7 +58,11 @@ class CatalogueServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function NonExistingLocale_ReturnAllKeys()
     {
-        $keys = $this->service->findMissingKeys('fr', array('tt'), array(__DIR__.'/../Fixtures/ABundle/Resources/translations'));
+        $keys = $this->service->findMissingKeys(
+            'fr',
+            array('tt'),
+            array(__DIR__ . '/../Fixtures/ABundle/Resources/translations')
+        );
         $this->assertCount(3, $keys['tt']);
     }
 
@@ -58,7 +71,11 @@ class CatalogueServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function OneFilePath_ReturnKeys()
     {
-        $keys = $this->service->findMissingKeys('fr', array('en'), array(__DIR__.'/../Fixtures/ABundle/Resources/translations'));
+        $keys = $this->service->findMissingKeys(
+            'fr',
+            array('en'),
+            array(__DIR__ . '/../Fixtures/ABundle/Resources/translations')
+        );
         $this->assertCount(1, $keys['en']);
         $this->assertContains('a.key_2', $keys['en']);
     }
@@ -68,7 +85,10 @@ class CatalogueServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function MultiFilePath_ReturnKeys()
     {
-        $path = array(__DIR__.'/../Fixtures/ABundle/Resources/translations', __DIR__.'/../Fixtures/BBundle/Resources/translations');
+        $path = array(
+            __DIR__ . '/../Fixtures/ABundle/Resources/translations',
+            __DIR__ . '/../Fixtures/BBundle/Resources/translations'
+        );
         $keys = $this->service->findMissingKeys('fr', array('en'), $path);
         $this->assertCount(2, $keys['en']);
         $this->assertContains('a.key_2', $keys['en']);
@@ -80,7 +100,11 @@ class CatalogueServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function NoMissing_ReturnEmpty()
     {
-        $keys = $this->service->findMissingKeys('fr', array('en'), array(__DIR__.'/../Fixtures/CBundle/Resources/translations'));
+        $keys = $this->service->findMissingKeys(
+            'fr',
+            array('en'),
+            array(__DIR__ . '/../Fixtures/CBundle/Resources/translations')
+        );
         $this->assertEmpty($keys);
     }
 

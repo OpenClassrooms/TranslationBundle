@@ -1,31 +1,29 @@
-<container xmlns="http://symfony.com/schema/dic/services"
-           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+<container xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://symfony.com/schema/dic/services" xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
         <service id="openclassrooms.translation.catalogue_service" class="OpenClassrooms\Bundle\TranslationBundle\Services\Impl\CatalogueServiceImpl">
             <call method="setTranslationLoader">
-                <argument type="service" id="translation.loader" />
+                <argument type="service" id="translation.loader"/>
             </call>
         </service>
 
         <service id="openclassrooms.translation.transifix_service" class="OpenClassrooms\Bundle\TranslationBundle\Services\Impl\TransifixServiceImpl">
             <call method="setYamlService">
-                <argument type="service" id="yaml_service" />
+                <argument type="service" id="yaml_service"/>
             </call>
             <call method="setHtmlPurifier">
-                <argument type="service" id="html_purifier" />
+                <argument type="service" id="html_purifier"/>
             </call>
             <call method="setFileSystemService">
-                <argument type="service" id="file_system_service" />
+                <argument type="service" id="file_system_service"/>
             </call>
         </service>
 
-        <service id="yaml_service" class="Symfony\Component\Yaml\Yaml" />
+        <service id="yaml_service" class="Symfony\Component\Yaml\Yaml"/>
 
-        <service id="html_purifier" class="HTMLPurifier" />
+        <service id="html_purifier" class="HTMLPurifier"/>
 
-        <service id="file_system_service" class="OpenClassrooms\Bundle\TranslationBundle\Services\Impl\FileSystemServiceImpl" />
+        <service id="file_system_service" class="OpenClassrooms\Bundle\TranslationBundle\Services\Impl\FileSystemServiceImpl"/>
 
     </services>
 </container>

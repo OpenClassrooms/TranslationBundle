@@ -9,7 +9,7 @@ use Symfony\Component\Yaml\Yaml;
 /**
  * @author Bastien Rambure <bastien.rambure@openclassrooms.com>
  */
-class TransifixTest extends \PHPUnit_Framework_TestCase
+class TransifixServiceTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
