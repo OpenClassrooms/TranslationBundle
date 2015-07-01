@@ -16,6 +16,12 @@ class OpenClassroomsTranslationExtension extends Extension
     {
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
+
+        $config = $this->processConfiguration(new Configuration(), $config);
+
+        $container->setParameter('openclassrooms.translation.locale_source', $config['locale_source']);
+        $container->setParameter('openclassrooms.translation.locale_targets', $config['locale_targets']);
+        $container->setParameter('openclassrooms.translation.bundles', $config['bundles']);
     }
 
 }

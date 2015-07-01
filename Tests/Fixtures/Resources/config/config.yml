@@ -1,0 +1,8 @@
+open_classrooms_translation:
+    locale_source: fr
+    locale_targets:
+        - en
+        - es
+    bundles:
+        - AppBundle
+        - UserBundle

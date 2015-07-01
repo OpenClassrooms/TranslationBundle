@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 
 /**
  * @author Bastien Rambure <bastien.rambure@openclassrooms.com>
@@ -20,22 +21,27 @@ class FindMissingKeysCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $bundles = $this->getContainer()->get('kernel')->getBundles();
+        $paths = $this->getBundlesPath();
+        $localeSource = $this->getContainer()->getParameter('openclassrooms.translation.locale_source');
+        $localeTargets = $this->getContainer()->getParameter('openclassrooms.translation.locale_targets');
 
-        $bundlesNames = array(
-            'AppBundle',
-            'OCCommonBundle',
-            'CorporateBundle',
-            'CourseBundle',
-            'PartnerBundle',
-            'OCSearchBundle',
-            'OCShopBundle',
-            'OCSpecialEventBundle',
-            'SynchronisationBundle',
-            'OCSystemBundle',
-            'OCTraceBundle',
-            'OCUserBundle'
+        $localeKeys = $this->getContainer()->get('openclassrooms.translation.catalogue_service')->findMissingKeys(
+            $localeSource,
+            $localeTargets,
+            $paths
         );
+
+        $this->displayLocalesResults($output, $localeKeys);
+    }
+
+    /**
+     * @return string[]
+     */
+    private function getBundlesPath()
+    {
+        /** @var BundleInterface[] $bundles */
+        $bundles = $this->getContainer()->get('kernel')->getBundles();
+        $bundlesNames = $this->getContainer()->getParameter('openclassrooms.translation.bundles');
 
         $paths = array();
         foreach ($bundles as $bundle) {
@@ -44,24 +50,29 @@ class FindMissingKeysCommand extends ContainerAwareCommand
             }
         }
 
-        $keys = $this->getContainer()->get('openclassrooms.translation.catalogue_service')->findMissingKeys('fr', array('en'), $paths);
+        return $paths;
+    }
 
-        if($keys['en']) {
-            $output->writeln(count($keys['en']));
-        } else {
-            $output->writeln(false);
-        }
-
-        if (OutputInterface::VERBOSITY_VERBOSE <= $output->getVerbosity()) {
-            $keysPrint = array();
-            foreach ($keys['en'] as $key) {
-                $keysPrint[] = array($key);
-            }
+    private function displayLocalesResults(OutputInterface $output, $localeKeys)
+    {
+        $missingKeyCount = 0;
+        $tables = array();
+        foreach ($localeKeys as $locale => $keys) {
+            $missingKeyCount += count($keys);
 
             /** @var Table $table */
             $table = $this->getHelper('table');
-            $table->setRows($keysPrint);
-            $table->render($output);
+            $table->setHeaders(array($locale));
+            $table->setRows($keys);
+            $tables[] = $table;
+        }
+
+        $output->writeln($missingKeyCount);
+
+        if (OutputInterface::VERBOSITY_VERBOSE <= $output->getVerbosity()) {
+            foreach ($tables as $table) {
+                $table->render($output);
+            }
         }
     }
 
