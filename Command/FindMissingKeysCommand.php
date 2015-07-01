@@ -69,12 +69,6 @@ class FindMissingKeysCommand extends ContainerAwareCommand
             foreach ($keys as $key) {
                 $table->addRow(array($locale, $key));
             }
-
-            reset($localeKeys);
-            if($locale === key($localeKeys)) {
-                $table->addRow(new TableSeparator());
-            }
-
         }
 
         $counts = new Table($output);
