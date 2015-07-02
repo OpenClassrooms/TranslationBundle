@@ -22,5 +22,7 @@ class PushTransifixCommand extends ContainerAwareCommand
     {
         $process = new Process('tx push -s');
         $process->run();
+
+        $output->write($process->getOutput());
     }
 }

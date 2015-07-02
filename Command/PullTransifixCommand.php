@@ -26,6 +26,8 @@ class PullTransifixCommand extends ContainerAwareCommand
         $process = new Process('tx pull --mode reviewed');
         $process->run();
 
+        $output->write($process->getOutput());
+
         $paths = $this->getBundlesPath();
 
         $finder = new Finder();
@@ -33,7 +35,6 @@ class PullTransifixCommand extends ContainerAwareCommand
 
         /** @var File $file */
         foreach ($finder as $file) {
-            $output->writeln($file->getRealpath());
             $this->getContainer()->get('openclassrooms.translation.transifix_service')
                 ->fixYamlFile($file->getRealpath());
         }
