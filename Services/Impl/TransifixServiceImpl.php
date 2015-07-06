@@ -65,7 +65,7 @@ class TransifixServiceImpl implements TransifixService
             try {
                 $lines = $this->yamlService->parse($this->fileSystemService->getContent($filePath));
 
-                if (null == $lines) {
+                if (null === $lines) {
                     break;
                 }
             } catch (ParseException $e) {
