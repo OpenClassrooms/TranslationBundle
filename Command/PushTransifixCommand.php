@@ -21,8 +21,10 @@ class PushTransifixCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $process = new Process('tx push -s');
-        $process->run();
+        $process->start();
 
-        $output->write($process->getOutput());
+        while ($process->isRunning()) {
+            $output->write($process->getIncrementalOutput());
+        }
     }
 }

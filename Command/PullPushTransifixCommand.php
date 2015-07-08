@@ -21,9 +21,9 @@ class PullPushTransifixCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $pull = $this->getApplication()->find('transifix:pull');
-        $pull->run(new ArrayInput(array()), $output);
+        $pull->run(new ArrayInput(array('command => transifix:pull')), $output);
 
         $push = $this->getApplication()->find('transifix:push');
-        $push->run(new ArrayInput(array()), $output);
+        $push->run(new ArrayInput(array('command => transifix:push')), $output);
     }
 }
