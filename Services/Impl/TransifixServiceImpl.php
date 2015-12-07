@@ -124,7 +124,7 @@ class TransifixServiceImpl implements TransifixService
                 $lines[$k] = $this->purifyArray($line);
             } else {
                 $line = $this->htmlPurifier->purify($line);
-                $lines[$k] = preg_replace('#href="%25(.*)%25"#', 'href="%$1%"', $line);
+                $lines[$k] = str_replace('%25', '%', $line);
             }
         }
 

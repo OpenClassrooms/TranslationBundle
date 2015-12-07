@@ -193,6 +193,49 @@ class TransifixServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $actual);
     }
 
+    /**
+     * @test
+     */
+    public function FixXssShouldNotConvertPercentInLinks()
+    {
+        $actual = array(
+            'testRoot' => array(
+                'test' => array(
+                    'string' => 'ps : N\'hésitez pas à nous dire bonjour sur <a href="mailto:%link%">%link%</a> ;)'
+                )
+            )
+        );
+
+        $actual = $this->service->fixXss($actual);
+
+        $expected = array(
+            'testRoot' => array(
+                'test' => array(
+                    'string' => 'ps : N\'hésitez pas à nous dire bonjour sur <a href="mailto:%link%">%link%</a> ;)'
+                )
+            )
+        );
+
+        $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     * @test
+     */
+    public function FixYamlShouldHandleUnbreakableSpaces()
+    {
+        $path = __DIR__.'/../Fixtures/TransifixBundle/Resources/translations/unbreakableSpaces.fr.yml';
+        $this->service->fixYamlFile($path);
+
+        $actual = FileSystemServiceStub::$files[$path];
+        $expected = file_get_contents(
+            __DIR__.'/../Fixtures/TransifixBundle/Resources/translations/fixedUnbreakableSpaces.en.yml'
+        );
+
+        $this->assertEquals($expected, $actual);
+    }
+
+
     protected function setUp()
     {
         $this->service = new TransifixServiceImpl();
