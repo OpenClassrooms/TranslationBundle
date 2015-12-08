@@ -20,7 +20,7 @@
     "symfony/translation": "~2.6",
     "symfony/finder": "~2.6",
     "symfony/framework-bundle": "~2.6",
-    "ezyang/htmlpurifier": "4.6.0",
+    "ezyang/htmlpurifier": "~4.6",
     "symfony/process": "^2.6"
   },
   "require-dev": {
